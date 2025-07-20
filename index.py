@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 import json
 from getInfo import UESTCLogin
-from main import send_email
+from emailSend import send_email
 from env import *
 
 app = Flask(__name__,static_folder='static')
