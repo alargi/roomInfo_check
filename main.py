@@ -3,11 +3,8 @@ import time
 import schedule
 from datetime import datetime
 from emailSend import send_email
+import json
 from env import *
-
-# 初始化登录
-login = getInfo.UESTCLogin(username, password)
-
 
 def check_and_notify():
     if not login.is_session_valid() and not login.login():
@@ -46,15 +43,18 @@ def check_and_notify():
         except Exception as e:
             print(f"[{datetime.now()}] 处理房间 {sub.get('room_id')} 失败: {e}")
 
-# 设置定时任务
-import json
-schedule.every(2).minutes.do(check_and_notify)
-
-# 立即执行一次
-check_and_notify()
-
-# 主循环
-while True:
-    schedule.run_pending()
-    time.sleep(1)#检查间隔(秒)
+if __name__ == '__main__':
+    # 初始化登录
+    login = getInfo.UESTCLogin(username, password)
+    
+    # 设置定时任务
+    schedule.every(2).minutes.do(check_and_notify)
+    
+    # 立即执行一次
+    check_and_notify()
+    
+    # 主循环
+    while True:
+        schedule.run_pending()
+        time.sleep(1)#检查间隔(秒)
 
